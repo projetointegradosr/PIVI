@@ -1,0 +1,70 @@
+<html>
+<head>
+<title>Mask.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #0033b3;}
+.s1 { color: #080808;}
+.s2 { color: #067d17;}
+.s3 { color: #1750eb;}
+</style>
+</head>
+<body bgcolor="#ffffff">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Mask.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.matheussilas97.calendrioesportivointegrado;</span>
+
+<span class="s0">import </span><span class="s1">android.text.Editable;</span>
+<span class="s0">import </span><span class="s1">android.text.TextWatcher;</span>
+<span class="s0">import </span><span class="s1">android.widget.EditText;</span>
+
+<span class="s0">public class </span><span class="s1">Mask {</span>
+    <span class="s0">public static </span><span class="s1">String unmask(String s) {</span>
+        <span class="s0">return </span><span class="s1">s.replaceAll(</span><span class="s2">&quot;[.]&quot;</span><span class="s1">, </span><span class="s2">&quot;&quot;</span><span class="s1">).replaceAll(</span><span class="s2">&quot;[-]&quot;</span><span class="s1">, </span><span class="s2">&quot;&quot;</span><span class="s1">)</span>
+                <span class="s1">.replaceAll(</span><span class="s2">&quot;[/]&quot;</span><span class="s1">, </span><span class="s2">&quot;&quot;</span><span class="s1">).replaceAll(</span><span class="s2">&quot;[(]&quot;</span><span class="s1">, </span><span class="s2">&quot;&quot;</span><span class="s1">)</span>
+                <span class="s1">.replaceAll(</span><span class="s2">&quot;[)]&quot;</span><span class="s1">, </span><span class="s2">&quot;&quot;</span><span class="s1">);</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public static </span><span class="s1">TextWatcher insert(</span><span class="s0">final </span><span class="s1">String mask, </span><span class="s0">final </span><span class="s1">EditText ediTxt) {</span>
+        <span class="s0">return new </span><span class="s1">TextWatcher() {</span>
+            <span class="s0">boolean </span><span class="s1">isUpdating;</span>
+            <span class="s1">String old = </span><span class="s2">&quot;&quot;</span><span class="s1">;</span>
+            <span class="s0">public void </span><span class="s1">onTextChanged(CharSequence s, </span><span class="s0">int </span><span class="s1">start, </span><span class="s0">int </span><span class="s1">before,</span><span class="s0">int </span><span class="s1">count) {</span>
+                <span class="s1">String str = Mask.unmask(s.toString());</span>
+                <span class="s1">String mascara = </span><span class="s2">&quot;&quot;</span><span class="s1">;</span>
+                <span class="s0">if </span><span class="s1">(isUpdating) {</span>
+                    <span class="s1">old = str;</span>
+                    <span class="s1">isUpdating = </span><span class="s0">false</span><span class="s1">;</span>
+                    <span class="s0">return</span><span class="s1">;</span>
+                <span class="s1">}</span>
+                <span class="s0">int </span><span class="s1">i = </span><span class="s3">0</span><span class="s1">;</span>
+                <span class="s0">for </span><span class="s1">(</span><span class="s0">char </span><span class="s1">m : mask.toCharArray()) {</span>
+                    <span class="s0">if </span><span class="s1">(m != </span><span class="s2">'#' </span><span class="s1">&amp;&amp; str.length() &gt; old.length()) {</span>
+                        <span class="s1">mascara += m;</span>
+                        <span class="s0">continue</span><span class="s1">;</span>
+                    <span class="s1">}</span>
+                    <span class="s0">try </span><span class="s1">{</span>
+                        <span class="s1">mascara += str.charAt(i);</span>
+                    <span class="s1">} </span><span class="s0">catch </span><span class="s1">(Exception e) {</span>
+                        <span class="s0">break</span><span class="s1">;</span>
+                    <span class="s1">}</span>
+                    <span class="s1">i++;</span>
+                <span class="s1">}</span>
+                <span class="s1">isUpdating = </span><span class="s0">true</span><span class="s1">;</span>
+                <span class="s1">ediTxt.setText(mascara);</span>
+                <span class="s1">ediTxt.setSelection(mascara.length());</span>
+            <span class="s1">}</span>
+            <span class="s0">public void </span><span class="s1">beforeTextChanged(CharSequence s, </span><span class="s0">int </span><span class="s1">start, </span><span class="s0">int </span><span class="s1">count, </span><span class="s0">int </span><span class="s1">after) {}</span>
+            <span class="s0">public void </span><span class="s1">afterTextChanged(Editable s) {}</span>
+        <span class="s1">};</span>
+    <span class="s1">}</span>
+
+<span class="s1">}</span>
+
+
+</pre>
+</body>
+</html>
